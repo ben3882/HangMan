@@ -1,20 +1,210 @@
 <!DOCTYPE html>
-<html>
-    <heading>
-        <title>HangMan</title>
+<html lang="en-us">
+<heading>
+    <title>HangMan</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
+<style>
+.main {
+    width: 400px;
+    margin: auto;
+    background-color: azure;
 
-    </heading>
+}
+#tryit {
+    width:500px;
+    margin:auto;
+}
+</style>
+
+</heading>
+<body>
+
+<div class="main">
+    <h1>HangMan</h1>
+    <!-- draw the scaffold and word play area (a table with 5 data spaces) -->
     
-    <body>
+</div>
 
-    <h1>My First Heading</h1>
+<div id="tryit">
+
+    <form>
+        <label for="guess">Guess a letter:</label><br>
+        <input type="text" id="guess" name="guess"><br><br>
+        <input type="submit" value="Guess">
+      </form>
+      
+    <p>Your guess:</p>
+    <p id="guesshistory"></p>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th colspan="3"> Find the word</th><th>Guess</th><td >___</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="index0"></td><td id="index1"></td><td id="index2"></td><td id="index3"></td><td id="index4"></td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- get a new word -->
+
+    <!-- make a function to test each letter guess against the word, 
+    wrong guess get a new portion of the stick man drawn on the scaffold 
+    6 wrong guesses end the game and hangs the stick man. -->
+
+
+
+    <p></p>
+
+</div>
+    
 
     <p>My first paragraph.</p>
 
-    <p><img src="./head.png"></p>
+    <p>paragraph</p>
 
-    </body>
+
+<script>
+
+
+
+/* [ellipse(200,70,50,50),  //head       
+         line(200,95,150,120),    //arm-left
+        line(200,95,250,120),    //arm-right
+        line(200,95,200,200),    //body
+        line(200,200,150,280),   //leg-left
+        line(200,200,250,280),    //leg-right 
+    ]; */
+
+ /* let bodyParts = [ellipse(200,70,50,50),  //head    
+         line(200,95,150,120),    //arm-left
+        line(200,95,250,120),    //arm-right
+        line(200,95,200,200),    //body
+        line(200,200,150,280),   //leg-left
+        line(200,200,250,280),    //leg-right 
+    ];*/
+    
+    
+    function setup() {
+        let myCanvas = createCanvas(400, 400);
+        myCanvas.parent('tryit');
+        background("azure");
+        let color1 = "red";
+        let color2 = "black";
+        
+        
+        strokeWeight(5);
+        stroke(color2);
+        line(100,20,100,325);     //scaffold vertical
+        stroke(color2);
+        line(75,325,125,325);     //scaffold base
+        stroke(color2);
+        line(100,20, 200, 20);    //scaffold arm
+        line(200,20, 200,45);     //scaffold noose
+        
+        
+
+        
+
+        
+
+  
+
+
+    noLoop();
+    }
+    function draw() {
+        
+
+        
+    }
+    let guesshistory = [];
+    let n=0;
+$(document).ready(function(){
+    $("form").on("submit", function(event){
+        event.preventDefault();
+        let guess = $("#guess").val();
+        console.log("Guess = " + guess);
+        
+        guesshistory.push(guess);
+        console.log("Guess history = " + guesshistory);
+        $("#guesshistory").text(guesshistory);
+
+        //check if the letter is in the word
+        
+        for(let i =0; i < dictionaryWord.length; i++){
+            index = dictionaryWord.indexOf(guess, i);
+            if(index>0) i=index;
+            if(index==-1 && i==0){
+                console.log("You guessed wrong");
+                drawBody(n);
+                n++;
+            }
+            console.log("index of guess = " + index);
+            $(`#index${index}`).text(guess);
+        }
+        
+    });
+});
+    
+    /*function mouseClicked () {
+            console.log("mouse was clicked");
+            drawBody();
+            //ellipse(200,70,50,50);
+
+        }
+        */
+    function drawBody (n) {
+            strokeWeight(4);
+            //ellipse(200,70,50,50);  //head  
+            switch(n) {
+  case 0:
+    ellipse(200,70,50,50);  //head  
+    break;
+  case 1:
+    line(200,95,200,200);    //body
+    break;
+    case 2:
+    line(200,95,150,120);   //arm-left
+    break;
+    case 3:
+    line(200,95,250,120);   //arm-right
+    break;
+    case 4:
+    line(200,200,150,280);   //leg-left
+    break;
+    case 5:
+    line(200,200,250,280);    //leg-right
+    break;
+    
+  default:
+    strokeWeight(1);
+    fill("red");
+    textSize(16);
+    text("Game over", 300, 95);   //game over text
+}   
+ /*          
+         line(200,95,150,120);   //arm-left
+        line(200,95,250,120);   //arm-right
+        line(200,95,200,200);    //body
+        line(200,200,150,280);   //leg-left
+        line(200,200,250,280);    //leg-right*/
+        };
+
+
+
+const dictionaryWord="mississippi";
+
+
+
+</script>
+
+</body>
 </html>
 
 
