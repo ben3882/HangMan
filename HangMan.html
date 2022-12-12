@@ -8,41 +8,87 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <style>
-.main {
-    width: 400px;
+body {
+    max-width: 400px;
     margin: auto;
     background-color: azure;
 
 }
+#main {
+    text-align: center;
+    
+}
 #tryit {
-    width:500px;
-    margin:auto;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
+#announcements {
+    text-align: right;
+    
+    
+    
+    
+    
+    
+    
+    
+}
+.divisions {
+    
+    float: left;
+    width: 48%;
+    
+}
+td {
+    border: 2px solid;
+    height: 25px;
+    width: 75px;
+    text-align: center;
+    font-size: large;
+}
+#guesshistory {
+    font-size: large;
 }
 </style>
 
 </heading>
 <body>
 
-<div class="main">
+<div id="main">
     <h1>HangMan</h1>
-    <!-- draw the scaffold and word play area (a table with 5 data spaces) -->
+    
     
 </div>
 
-<div id="tryit">
+<div id="tryit" class="divisions">
 
     <form>
         <label for="guess">Guess a letter:</label><br>
-        <input type="text" id="guess" name="guess"><br><br>
+        <input type="text" id="guess" name="guess" maxlength="1" size="1" required autofocus><br><br>
         <input type="submit" value="Guess">
       </form>
       
-    <p>Your guess:</p>
+    <p>Your guesses:</p>
     <p id="guesshistory"></p>
+
+</div>
+<div id = "announcements" class="divisions">
+    <button id = "newgame">New Game?</button>
+    <p id = "hint"></p>
+    <p id = "correctanswer"></p>
+</div>
+<div id="correctGuesses">
     <table width="100%">
         <thead>
             <tr>
-                <th colspan="3"> Find the word</th><th>Guess</th><td >___</td>
+                <th colspan="5"> Find the word</th>
             </tr>
         </thead>
         <tbody>
@@ -51,6 +97,8 @@
             </tr>
         </tbody>
     </table>
+</div>
+    
     <!-- get a new word -->
 
     <!-- make a function to test each letter guess against the word, 
@@ -61,38 +109,13 @@
 
     <p></p>
 
-</div>
+
     
-
-    <p>My first paragraph.</p>
-
-    <p>paragraph</p>
-
-
 <script>
 
-
-
-/* [ellipse(200,70,50,50),  //head       
-         line(200,95,150,120),    //arm-left
-        line(200,95,250,120),    //arm-right
-        line(200,95,200,200),    //body
-        line(200,200,150,280),   //leg-left
-        line(200,200,250,280),    //leg-right 
-    ]; */
-
- /* let bodyParts = [ellipse(200,70,50,50),  //head    
-         line(200,95,150,120),    //arm-left
-        line(200,95,250,120),    //arm-right
-        line(200,95,200,200),    //body
-        line(200,200,150,280),   //leg-left
-        line(200,200,250,280),    //leg-right 
-    ];*/
-    
-    
     function setup() {
         let myCanvas = createCanvas(400, 400);
-        myCanvas.parent('tryit');
+        myCanvas.parent("correctGuesses");
         background("azure");
         let color1 = "red";
         let color2 = "black";
@@ -107,89 +130,117 @@
         line(100,20, 200, 20);    //scaffold arm
         line(200,20, 200,45);     //scaffold noose
         
-        
-
-        
-
-        
-
-  
-
-
-    noLoop();
+         noLoop();
     }
-    function draw() {
-        
-
-        
-    }
-    let guesshistory = [];
+    function draw() {}
+    const dictionaryWord=[["label", "attached to a package"], ["clock", "keeps time"], ["knock", "who's there?"], ["blood", "red liquid in the body"], 
+                        ["truck", "hauls things"], ["dirty", "opposite of clean"], ["taste", "one of the 5 senses"]["wheel", "goes round and round"]
+                        ];
+    const guessHistory = [];
+    
     let n=0;
+    let dictionaryCounter = 0;
+    let hintCounter = 0;
+    let correctLetters = 0;
+    let newWord = dictionaryWord[dictionaryCounter][0];
+    $("#hint").text("Hint: " + dictionaryWord[dictionaryCounter][1]);
+
 $(document).ready(function(){
     $("form").on("submit", function(event){
         event.preventDefault();
         let guess = $("#guess").val();
+        $("#guess").val("");
+        guess = guess.toUpperCase();
         console.log("Guess = " + guess);
         
-        guesshistory.push(guess);
-        console.log("Guess history = " + guesshistory);
-        $("#guesshistory").text(guesshistory);
+        guessHistory.push(guess);
+        console.log("Guess history = " + guessHistory);
+        $("#guesshistory").text(guessHistory);
 
         //check if the letter is in the word
-        
-        for(let i =0; i < dictionaryWord.length; i++){
-            index = dictionaryWord.indexOf(guess, i);
-            if(index>0) i=index;
+        newWord = newWord.toUpperCase();
+        for(i =0; i < newWord.length; i++){
+            index = newWord.indexOf(guess, i);
+            if(index>=0) {
+                i=index;
+                correctLetters++;
+                console.log("correct letters = " + correctLetters);
+            }
             if(index==-1 && i==0){
                 console.log("You guessed wrong");
                 drawBody(n);
                 n++;
-            }
+            } 
+            if(index==-1) {
+                i=newWord.length;
+                }
             console.log("index of guess = " + index);
             $(`#index${index}`).text(guess);
+            if(correctLetters >= newWord.length){
+                $("#correctanswer").text(dictionaryWord[dictionaryCounter][0].toUpperCase());
+                console.log("correct letters = " + correctLetters);
+                
+                strokeWeight(1);
+                fill("red");
+                textSize(16);
+                text("Winner!", 300, 95);   //Winner text
+                
+            }
         }
         
     });
 });
-    
-    /*function mouseClicked () {
-            console.log("mouse was clicked");
-            drawBody();
-            //ellipse(200,70,50,50);
-
+    $("#newgame").on("click", function(e){
+        console.log("you clicked me");
+        dictionaryCounter++;
+        
+        n=0;
+        guessHistory.length = 0;
+        $("#guesshistory").text(guessHistory);
+        newWord = dictionaryWord[dictionaryCounter][0];
+        $("#hint").text("Hint: " + dictionaryWord[dictionaryCounter][1]);
+        setup();
+        for(i=0; i<5; i++){
+            $(`#index${i}`).text("");
         }
-        */
-    function drawBody (n) {
-            strokeWeight(4);
-            //ellipse(200,70,50,50);  //head  
-            switch(n) {
-  case 0:
-    ellipse(200,70,50,50);  //head  
-    break;
-  case 1:
-    line(200,95,200,200);    //body
-    break;
-    case 2:
-    line(200,95,150,120);   //arm-left
-    break;
-    case 3:
-    line(200,95,250,120);   //arm-right
-    break;
-    case 4:
-    line(200,200,150,280);   //leg-left
-    break;
-    case 5:
-    line(200,200,250,280);    //leg-right
-    break;
+        correctLetters = 0;
+        $("#correctanswer").text("");
+    })
     
-  default:
-    strokeWeight(1);
-    fill("red");
-    textSize(16);
-    text("Game over", 300, 95);   //game over text
+    function drawBody (n) {
+        strokeWeight(4);
+        stroke("red");
+        switch(n) {
+            case 0:
+                noFill();
+                ellipse(200,70,50,50);  //head  
+             break;
+            case 1:
+                line(200,95,200,200);    //body
+            break;
+            case 2:
+                line(200,95,150,120);   //arm-left
+            break;
+            case 3:
+                line(200,95,250,120);   //arm-right
+            break;
+            case 4:
+                line(200,200,150,280);   //leg-left
+            break;
+            case 5:
+                line(200,200,250,280);    //leg-right
+                strokeWeight(1);
+                fill("red");
+                textSize(16);
+                text("Game over", 300, 95);   //game over text
+                $("#correctanswer").text(dictionaryWord[dictionaryCounter][0].toUpperCase());
+            break;
+    
+            default:
+                text("Game over", 300, 95);   //game over text
 }   
- /*          
-         line(200,95,150,120);   //arm-left
+ /*     ellipse(200,70,50,50);  //head    
+        line(200,95,150,120);   //arm-left
         line(200,95,250,120);   //arm-right
         line(200,95,200,200);    //body
         line(200,200,150,280);   //leg-left
@@ -198,7 +249,7 @@ $(document).ready(function(){
 
 
 
-const dictionaryWord="mississippi";
+
 
 
 
