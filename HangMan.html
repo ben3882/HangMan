@@ -18,33 +18,13 @@ body {
     text-align: center;
     
 }
-#tryit {
-    
-    
-    
-    
-    
-    
-    
-    
-    
-}
+
 #announcements {
     text-align: right;
-    
-    
-    
-    
-    
-    
-    
-    
 }
 .divisions {
-    
     float: left;
     width: 48%;
-    
 }
 td {
     border: 2px solid;
@@ -133,15 +113,15 @@ td {
          noLoop();
     }
     function draw() {}
-    const dictionaryWord=[["label", "attached to a package"], ["clock", "keeps time"], ["knock", "who's there?"], ["blood", "red liquid in the body"], 
-                        ["truck", "hauls things"], ["dirty", "opposite of clean"], ["taste", "one of the 5 senses"]["wheel", "goes round and round"]
-                        ];
+    const dictionaryWord=[["label", "attached to a package"], ["clock", "keeps time"], ["knock", "___, ___, \n who's there?"], ["blood", "red liquid in the body"], 
+                        ["truck", "hauls things"], ["dirty", "opposite of clean"], ["taste", "one of the 5 senses"]["wheel", "goes round and round"],
+                        ["books", "read cover to cover"],];
     const guessHistory = [];
     
     let n=0;
     let dictionaryCounter = 0;
-    let hintCounter = 0;
-    let correctLetters = 0;
+    
+    let correctLetters = [];
     let newWord = dictionaryWord[dictionaryCounter][0];
     $("#hint").text("Hint: " + dictionaryWord[dictionaryCounter][1]);
 
@@ -163,8 +143,8 @@ $(document).ready(function(){
             index = newWord.indexOf(guess, i);
             if(index>=0) {
                 i=index;
-                correctLetters++;
-                console.log("correct letters = " + correctLetters);
+                correctLetters.push(guess);
+                console.log("correct letters = " + correctLetters.join(""));
             }
             if(index==-1 && i==0){
                 console.log("You guessed wrong");
@@ -176,7 +156,8 @@ $(document).ready(function(){
                 }
             console.log("index of guess = " + index);
             $(`#index${index}`).text(guess);
-            if(correctLetters >= newWord.length){
+            if($("#index0").text() != "" && $("#index1").text() != "" && $("#index2").text() != "" 
+                && $("#index3").text() != "" && $("#index4").text() != ""){
                 $("#correctanswer").text(dictionaryWord[dictionaryCounter][0].toUpperCase());
                 console.log("correct letters = " + correctLetters);
                 
@@ -203,7 +184,7 @@ $(document).ready(function(){
         for(i=0; i<5; i++){
             $(`#index${i}`).text("");
         }
-        correctLetters = 0;
+        correctLetters.length = 0;
         $("#correctanswer").text("");
     })
     
