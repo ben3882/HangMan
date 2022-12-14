@@ -1,97 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<heading>
-    <title>HangMan</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
-<style>
-body {
-    max-width: 400px;
-    margin: auto;
-    background-color: azure;
-
-}
-#main {
-    text-align: center;
-    
-}
-
-#announcements {
-    text-align: right;
-}
-.divisions {
-    float: left;
-    width: 48%;
-}
-td {
-    border: 2px solid;
-    height: 25px;
-    width: 75px;
-    text-align: center;
-    font-size: large;
-}
-#guesshistory {
-    font-size: large;
-}
-</style>
-
-</heading>
-<body>
-
-<div id="main">
-    <h1>HangMan</h1>
-    
-    
-</div>
-
-<div id="tryit" class="divisions">
-
-    <form>
-        <label for="guess">Guess a letter:</label><br>
-        <input type="text" id="guess" name="guess" maxlength="1" size="1" required autofocus autocomplete="off"><br><br>
-        <input type="submit" value="Guess">
-      </form>
-      
-    <p>Your guesses:</p>
-    <p id="guesshistory"></p>
-
-</div>
-<div id = "announcements" class="divisions">
-    <button id = "newgame">New Game?</button>
-    <p id = "hint"></p>
-    <p id = "correctanswer"></p>
-</div>
-<div id="correctGuesses">
-    <table width="100%">
-        <thead>
-            <tr>
-                <th colspan="5"> Find the word</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td id="index0"></td><td id="index1"></td><td id="index2"></td><td id="index3"></td><td id="index4"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-    
-    <!-- get a new word -->
-
-    <!-- make a function to test each letter guess against the word, 
-    wrong guess get a new portion of the stick man drawn on the scaffold 
-    6 wrong guesses end the game and hangs the stick man. -->
-
-
-
-    <p></p>
-
-
-    
-<script>
 
     function setup() {
         let myCanvas = createCanvas(400, 400);
@@ -158,8 +65,7 @@ $(document).ready(function(){
                 }
             console.log("index of guess = " + index);
             $(`#index${index}`).text(guess);
-            if($("#index0").text() != "" && $("#index1").text() != "" && $("#index2").text() != "" 
-                && $("#index3").text() != "" && $("#index4").text() != ""){
+            if($("#index0").text() != "" && $("#index1").text() != "" && $("#index2").text() != "" && $("#index3").text() != "" && $("#index4").text() != ""){
                 $("#correctanswer").text(dictionaryWord[dictionaryCounter][0].toUpperCase());
                 console.log("correct letters = " + correctLetters);
                 
@@ -191,7 +97,7 @@ $(document).ready(function(){
         }
         correctLetters.length = 0;
         $("#correctanswer").text("");
-    })
+    });
     
     function drawBody (n) {
         strokeWeight(4);
@@ -231,17 +137,9 @@ $(document).ready(function(){
         line(200,95,200,200);    //body
         line(200,200,150,280);   //leg-left
         line(200,200,250,280);    //leg-right*/
-        };
+        }
 
 
 
-
-
-
-
-</script>
-
-</body>
-</html>
 
 
