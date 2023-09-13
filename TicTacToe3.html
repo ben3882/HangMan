@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    
+    .canvas {
+        width: 400px;
+        background-color: beige;
+        margin:auto;
+        text-align: center;
+        border: 2px solid;
+    }
+    .playArea {
+        width: 400px;
+        margin:auto;        
+    }
+    table {
+        width:350px;
+        margin:auto;
+    }
+    td {
+        width: 65px;
+        height: 80px;
+        text-align:center;
+    } 
+    .hoverColor:hover {
+        background-color:azure;
+    }
+    th {
+        color: red;
+        
+    }
+    
+    
+    table.tableValues, td.tableValues {
+        border: 2px solid;
+        background-color: white;
+    }
+    td.tableValues:hover {
+        background-color:azure;        
+    }
+    .iconArea {
+        width: 400px;
+        margin:auto;        
+    }
+    img {
+        background-color: white;
+        border: 1px solid azure;
+        height: 65px;
+        width: 60px;
+        margin:5px auto;
+    }
+    p {
+        color:blue;
+        font-size: larger;
+    }
+    h1 {
+        color:crimson;
+    }
+
+    #playagain {                
+        color:royalblue;
+        font-size: large;
+        background-color:ivory;
+        border-radius: 10px;
+    }
+    #playagain:hover {
+        background-color: azure;
+    }
+    
+    .contactdiv {
+    margin:auto;
+    width: 400px;
+    }
+    </style>
+<title>Cute TicTacToe</title>
+</head>
+<body>
+<div class="canvas">
+
+    <h1>Cute TicTacToe</h1>
+    <p>Shall We Play A Game?</p>
+
+    <button id="playagain" onclick="playAgain()">Restart</button>
+    
+    
+    <p id="test5"></p>
+
+<div class="iconArea">
+    <table>
+        <thead>
+            <tr><th colspan="6">Select your Avatar:</th></tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td onclick="pickAvatar(id)" id="image1" class="hoverColor"><img src="chubby-tonton.gif" height="65px"></td>
+                <td onclick="pickAvatar(id)" id="image2" class="hoverColor"><img src="corgi-excited.gif" height="65px"></td>
+                <td onclick="pickAvatar(id)" id="image3" class="hoverColor"><img src="shiba-tilt-head.gif" height="65px"></td>
+                <td onclick="pickAvatar(id)" id="image4" class="hoverColor"><img src="gojill-the-meow-dance.gif" height="65px"></td>
+                <td onclick="pickAvatar(id)" id="image5" class="hoverColor"><img src="shiba-dog-jump.gif" height="65px"></td>
+                <td onclick="pickAvatar(id)" id="image6" class="hoverColor"><img src="love-hearts.gif" height="65px"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table style="width:180px"><!--choose your x and o avatars, displays your choice-->
+        <thead>
+            <tr><th colspan="4">Your Avatars:</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width:10px">X:</td><td id="xChoice" class="hoverColor"></td>
+                <td style="width:10px">O:</td><td id="oChoice" class="hoverColor"></td>
+                
+            </tr>
+        </tbody>
+    </table>
+</div><!--end of icon area div-->
+
+<div class="playArea">
+    <table style= "border:2px solid">
+        <tbody>
+            <tr>
+                <td class="tableValues" id="cell1" onclick="fillTable(id)"></td>
+                <td class="tableValues" id="cell2" onclick="fillTable(id)"></td>
+                <td class="tableValues" id="cell3" onclick="fillTable(id)"></td>
+            </tr>
+            <tr>
+                <td class="tableValues" id="cell4" onclick="fillTable(id)"></td>
+                <td class="tableValues" id="cell5" onclick="fillTable(id)"></td>
+                <td class="tableValues" id="cell6" onclick="fillTable(id)"></td>
+            </tr>
+            <tr>
+                <td class="tableValues" id="cell7" onclick="fillTable(id)"></td>
+                <td class="tableValues" id="cell8" onclick="fillTable(id)"></td>
+                <td class="tableValues" id="cell9" onclick="fillTable(id)"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p id="result"></p>
+</div><!--end of playarea div-->
+<div class="contactdiv">
+    <address id="contact" >
+        <a href="mailto:benbrown3882@gmail.com">benbrown3882@gmail.com</a>
+
+    </address>
+</div><!--end of contact div-->
+</div><!--end of canvas div-->
+
+
+
+<script>
+    var clickBait=0;
+    var numClicks=0;
+    var xAvatar;
+    var oAvatar;
+    const scoreCard=[];
+    var gameOn=true;
+
+function pickAvatar (id) {
+    if(numClicks<1){
+        if(clickBait%2) {
+            oAvatar=document.getElementById(id).innerHTML;
+            document.getElementById("oChoice").innerHTML=oAvatar;
+            //console.log("oAvatar = "+ oAvatar);
+        } 
+        else {
+            xAvatar=document.getElementById(id).innerHTML;
+            document.getElementById("xChoice").innerHTML=xAvatar;
+            //console.log("xAvatar = "+ xAvatar);
+            console.log(xAvatar.height);
+        }
+    clickBait++;
+    }
+}
+
+function fillTable (id) {
+    
+    if(document.getElementById(id).innerHTML=="" && clickBait>1 && gameOn) {    //is the cell blank, are the icons selected, and is the gameOn?
+        if(numClicks%2) {                                                       //alternate Os and Xs
+            document.getElementById(id).innerHTML=oAvatar;
+        }
+        else {
+            document.getElementById(id).innerHTML=xAvatar;
+        }
+        numClicks++;
+        checkForAWinner();
+        
+    }   
+
+}
+function checkForAWinner() {
+    
+    const rowsAndColumns = [
+        {x: 0, y: 1, z: 2},     //test row 1: 0, 1, 2
+        {x: 3, y: 4, z: 5},     //test row 2: 3, 4, 5
+        {x: 6, y: 7, z: 8},     //test row 3: 6, 7, 8
+        {x: 0, y: 3, z: 6},     //test column 1: 0, 3, 6
+        {x: 1, y: 4, z: 7},     //test column 2: 1, 4, 7
+        {x: 2, y: 5, z: 8},     //test column 3: 2, 5, 8
+        {x: 0, y: 4, z: 8},     //test diagonal 1: 0, 4, 8
+        {x: 2, y: 4, z: 6}      //test diagonal 2: 2, 4, 6
+    ];
+
+        for(i=0; i < rowsAndColumns.length; i++) {
+
+           testEmAll(rowsAndColumns[i].x, rowsAndColumns[i].y, rowsAndColumns[i].z);
+            
+        } 
+}
+
+function testEmAll(x, y, z) {
+
+    const xO = document.getElementsByClassName("tableValues"); //put all the table values in an array xO[]
+    
+    if(xO[x].innerHTML !== "" && xO[y].innerHTML !=="" && xO[z].innerHTML != ""){  //ensure all three boxes have been selected
+
+        if(xO[x].innerHTML == xO[y].innerHTML && xO[y].innerHTML == xO[z].innerHTML ) {  //test for "3 in a row"
+            
+            announceAWinner(xO, x, y, z);
+
+        }
+    }
+}
+
+function announceAWinner(xO, x, y, z) {
+    scoreCard.push(xO[x].innerHTML);        //keep track of winners in an array
+    gameOn=false;                           //stop the game once there is a winner
+    document.getElementById("result").innerHTML =         
+        "Winner!" + scoreCard;              //announce game is won, display list of winners from the scoreCard array
+}
+function playAgain(id) {
+    numClicks=0;        //reset click counter
+    gameOn=true;        //reset the gameOn flag
+    for(var i=1; i<10; i++){
+        document.getElementById("cell" + i).innerHTML="";       //clear each cell
+    }
+    const xO = document.getElementsByClassName("tableValues");  //reload the array with blanks
+}
+
+</script>
+</body>
+</html>
+

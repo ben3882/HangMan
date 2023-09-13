@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<heading>
+    <title>HangMan</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<style>
+body {
+    max-width: 400px;
+    margin: auto;
+    background-color: azure;
+
+}
+#main {
+    text-align: center;
+    
+}
+
+#announcements {
+    text-align: right;
+}
+.divisions {
+    float: left;
+    width: 48%;
+}
+td {
+    border: 2px solid;
+    height: 25px;
+    width: 75px;
+    text-align: center;
+    font-size: large;
+}
+#guesshistory {
+    font-size: large;
+}
+</style>
+
+</heading>
+<body>
+
+<div id="main">
+    <h1>HangMan</h1>
+    
+    
+</div>
+
+<div id="tryit" class="divisions">
+
+    <form>
+        <label for="guess">Guess a letter:</label><br>
+        <input type="text" id="guess" name="guess" maxlength="1" size="1" required autofocus autocomplete="off"><br><br>
+        <input type="submit" value="Guess">
+      </form>
+      
+    <p>Your guesses:</p>
+    <p id="guesshistory"></p>
+
+</div>
+<div id = "announcements" class="divisions">
+    <button id = "newgame">New Game?</button>
+    <p id = "hint"></p>
+    <p id = "correctanswer"></p>
+</div>
+<div id="correctGuesses">
+    <table width="100%">
+        <thead>
+            <tr>
+                <th colspan="5"> Find the word</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="index0"></td><td id="index1"></td><td id="index2"></td><td id="index3"></td><td id="index4"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+    
+    <!-- get a new word -->
+
+    <!-- make a function to test each letter guess against the word, 
+    wrong guess get a new portion of the stick man drawn on the scaffold 
+    6 wrong guesses end the game and hangs the stick man. -->
+
+
+
+    <p></p>
+
+
+    
+<script>
+
+    function setup() {
+        let myCanvas = createCanvas(400, 400);
+        myCanvas.parent("correctGuesses");
+        background("azure");
+        let color1 = "red";
+        let color2 = "black";
+        
+        
+        strokeWeight(5);
+        stroke(color2);
+        line(100,20,100,325);     //scaffold vertical
+        stroke(color2);
+        line(75,325,125,325);     //scaffold base
+        stroke(color2);
+        line(100,20, 200, 20);    //scaffold arm
+        line(200,20, 200,45);     //scaffold noose
+        
+         noLoop();
+    }
+    function draw() {}
+    const dictionaryWord=[["label", "attached to a package"], ["clock", "keeps time"], ["knock", "___, ___, \n who's there?"], ["blood", "red liquid in the body"], 
+                        ["truck", "hauls things"], ["dirty", "opposite of clean"], ["taste", "one of the 5 senses"], ["wheel", "goes round and round"],
+                        ["books", "read cover to cover"],["tools", "you can fix things with them"],["glass", "you can see through it"],["chair", "sit on one"],
+                        ["judge", "black robe in court"], ["molar","a back tooth" ], 
+                    ];
+    const guessHistory = [];
+    
+    let n=0;
+    let dictionaryCounter = 0;
+    
+    let correctLetters = [];
+    let newWord = dictionaryWord[dictionaryCounter][0];
+    $("#hint").text("Hint: " + dictionaryWord[dictionaryCounter][1]).css("textAlign", "left");
+
+$(document).ready(function(){
+    $("form").on("submit", function(event){
+        event.preventDefault();
+        let guess = $("#guess").val();
+        $("#guess").val("");
+        guess = guess.toUpperCase();
+        console.log("Guess = " + guess);
+        
+        guessHistory.push(guess);
+        console.log("Guess history = " + guessHistory);
+        $("#guesshistory").text(guessHistory);
+
+        //check if the letter is in the word
+        newWord = newWord.toUpperCase();
+        for(i =0; i < newWord.length; i++){
+            index = newWord.indexOf(guess, i);
+            if(index>=0) {
+                i=index;
+                correctLetters.push(guess);
+                console.log("correct letters = " + correctLetters.join(""));
+            }
+            if(index==-1 && i==0){
+                console.log("You guessed wrong");
+                drawBody(n);
+                n++;
+            } 
+            if(index==-1) {
+                i=newWord.length;
+                }
+            console.log("index of guess = " + index);
+            $(`#index${index}`).text(guess);
+            if($("#index0").text() != "" && $("#index1").text() != "" && $("#index2").text() != "" 
+                && $("#index3").text() != "" && $("#index4").text() != ""){
+                $("#correctanswer").text(dictionaryWord[dictionaryCounter][0].toUpperCase());
+                console.log("correct letters = " + correctLetters);
+                
+                strokeWeight(1);
+                fill("red");
+                textSize(16);
+                text("Winner!", 300, 95);   //Winner text
+                
+            }
+        }
+        
+    });
+});
+    $("#newgame").on("click", function(e){
+        console.log("you clicked me");
+        
+        dictionaryCounter++;
+        if(dictionaryCounter >= dictionaryWord.length) {
+            dictionaryCounter = 0;
+        }
+        n=0;
+        guessHistory.length = 0;
+        $("#guesshistory").text(guessHistory);
+        newWord = dictionaryWord[dictionaryCounter][0];
+        $("#hint").text("Hint: " + dictionaryWord[dictionaryCounter][1]);
+        setup();
+        for(i=0; i<5; i++){
+            $(`#index${i}`).text("");
+        }
+        correctLetters.length = 0;
+        $("#correctanswer").text("");
+    })
+    
+    function drawBody (n) {
+        strokeWeight(4);
+        stroke("red");
+        switch(n) {
+            case 0:
+                noFill();
+                ellipse(200,70,50,50);  //head  
+             break;
+            case 1:
+                line(200,95,200,200);    //body
+            break;
+            case 2:
+                line(200,95,150,120);   //arm-left
+            break;
+            case 3:
+                line(200,95,250,120);   //arm-right
+            break;
+            case 4:
+                line(200,200,150,280);   //leg-left
+            break;
+            case 5:
+                line(200,200,250,280);    //leg-right
+                strokeWeight(1);
+                fill("red");
+                textSize(16);
+                text("Game over", 300, 95);   //game over text
+                $("#correctanswer").text(dictionaryWord[dictionaryCounter][0].toUpperCase());
+            break;
+    
+            default:
+                text("Game over", 300, 95);   //game over text
+}   
+ /*     ellipse(200,70,50,50);  //head    
+        line(200,95,150,120);   //arm-left
+        line(200,95,250,120);   //arm-right
+        line(200,95,200,200);    //body
+        line(200,200,150,280);   //leg-left
+        line(200,200,250,280);    //leg-right*/
+        };
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
+
+

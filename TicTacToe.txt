@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--Friday's code-->
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+<style>
+
+    h1 {
+        margin-left: 125px;
+        
+    }
+    
+p  {
+    margin-left: 125px;
+    color: blue;
+}
+
+table {
+    
+    width: 300px;
+    background-color: white;
+    margin: auto;
+
+}
+
+table, td {
+
+    border: 1px solid;
+    text-align: center;
+}
+
+td {
+    width: 100px;
+
+}
+/* button {
+
+    background-color: white;
+    padding: 32px 16px;
+    border: none;
+    font-size: 34px;
+    font-family: Courier, monospace;
+    // 
+    
+} */
+
+body {
+    background-color: antiquewhite;
+}
+.container {
+    margin: auto;
+    width: 400px;
+    border: 2px solid rgb(100,100,100);
+    padding-bottom: 100px;
+}
+.test {
+    color:red;
+    font-size: x-small;
+    width:300px;
+    
+    
+
+
+}
+.table_buttons {
+    padding: 0px;
+    margin: 0px;
+    width: 90px;
+    height: 90px;
+    background-color: white;
+    color: white;
+}
+
+</style>    
+</head>
+
+<body>
+<div class="container">
+
+<button class = "test" style = padding:0px ><img src=chubby-tonton.gif style = width:50px border="2px solid"></button>
+
+<h1 style="color: red;">TicTacToe</h1>
+<p>Shall we play a game?</p>
+ 
+<table>
+    <!--<thead>
+        
+        <tr>
+            <th></th><th>Tic Tac Toe</th><th></th>
+        </tr>
+        
+    </thead>-->
+    <tbody>
+        <tr>    
+            <td><button class = "table_buttons" id="button1" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button2" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button3" onclick=wasClicked(id)>Z</button></td>
+        </tr>
+        <tr>    
+            <td><button class = "table_buttons" id="button4" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button5" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button6" onclick=wasClicked(id)>Z</button></td>
+        </tr>
+        <tr>    
+            <td><button class = "table_buttons" id="button7" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button8" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button9" onclick=wasClicked(id)>Z</button></td>
+        </tr>
+    </tbody>
+ 
+ 
+ 
+</table>
+
+<p id = "win"></p>
+<p id = "debug"></p>
+
+
+</div>
+
+
+
+</body>
+
+
+<script>
+let numClicks = 0;
+let binaryResult;
+ 
+function wasClicked (id) {
+ 
+
+    let initialValue = document.getElementById(id).innerHTML;
+        if(initialValue=="Z") {
+ 
+            if(numClicks%2) {
+                binaryResult = "O";
+                document.getElementById(id).style.backgroundImage = "url('chubby-tonton.gif')";
+                document.getElementById(id).style.backgroundSize="85px";
+                document.getElementById(id).style.backgroundRepeat="no-repeat";
+                document.getElementById(id).style.color = "black";      //change color from white
+                document.getElementById(id).innerHTML = binaryResult;
+                
+   
+            } else {
+                    binaryResult = "X";
+                    document.getElementById(id).style.backgroundImage = "url(gojill-the-meow-dance.gif)";
+                    document.getElementById(id).style.backgroundSize="85px";
+                    document.getElementById(id).style.backgroundRepeat="no-repeat";
+                    document.getElementById(id).style.color = "black";
+                    document.getElementById(id).innerHTML = binaryResult;
+                }
+       
+        numClicks++;
+        checkForAWinner();
+        }
+}
+ 
+function checkForAWinner() {
+    
+    const rowsAndColumns = [
+        {x: 0, y: 1, z: 2},     //test row 1: 0, 1, 2
+        {x: 3, y: 4, z: 5},     //test row 2: 3, 4, 5
+        {x: 6, y: 7, z: 8},     //test row 3: 6, 7, 8
+        {x: 0, y: 3, z: 6},     //test column 1: 0, 3, 6
+        {x: 1, y: 4, z: 7},     //test column 2: 1, 4, 7
+        {x: 2, y: 5, z: 8},     //test column 3: 2, 5, 8
+        {x: 0, y: 4, z: 8},     //test diagonal 1: 0, 4, 8
+        {x: 2, y: 4, z: 6}      //test diagonal 2: 2, 4, 6
+        ];
+
+        for(i=0; i < rowsAndColumns.length; i++) {
+
+           testEmAll(rowsAndColumns[i].x, rowsAndColumns[i].y, rowsAndColumns[i].z);
+            
+        } 
+}
+
+function testEmAll(x, y, z) {
+
+    const xO = document.getElementsByClassName("table_buttons"); //put all the "button" values in an array xO[]
+
+    if(xO[x].innerHTML !== "Z" && xO[y].innerHTML !=="Z" && xO[z].innerHTML != "Z"){  //ensure all three boxes have been selected
+
+        if(xO[x].innerHTML == xO[y].innerHTML && xO[y].innerHTML == xO[z].innerHTML ) {  //test for "3 in a row"
+    
+            announceAWinner(xO, x, y, z);
+
+        }
+    }
+}
+
+function announceAWinner(xO, x, y, z) {
+    
+    document.getElementById("win").innerHTML = 
+        "Winner! " + xO[x].innerHTML + xO[y].innerHTML + xO[z].innerHTML;  //announce game is won
+
+}
+
+</script>
+ 
+ 
+ 
+
+
+</html>

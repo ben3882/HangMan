@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<!--Sunday's code-->
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+<style>
+
+h1 {
+        margin-left: 125px;
+        color: red;
+    }
+h3 {
+    margin-left: 115px;
+}
+    
+p  {
+    
+    color: blue;
+}
+
+table {
+    
+    width: 300px;
+    background-color: white;
+    margin: auto;
+
+}
+
+table, td {
+
+    border: 1px solid;
+    text-align: center;
+}
+
+td {
+    width: 100px;
+
+}
+/* button {
+
+    background-color: white;
+    padding: 32px 16px;
+    border: none;
+    font-size: 34px;
+    font-family: Courier, monospace;
+    // 
+    
+} */
+
+body {
+    background-color: antiquewhite;
+}
+
+#contact {
+    color:rgb(26, 200, 76);
+    margin: 10px;
+    
+}
+.container {
+    margin: auto;
+    width: 400px;
+    border: 2px solid rgb(100,100,100);
+    padding-bottom: 100px;
+}
+.avatars {
+    color:red;
+    font-size: x-small;
+    position:relative;
+    bottom: 0px;
+    background-color: white;
+    background-size:contain;
+    background-repeat: no-repeat;
+    padding: 0px;
+    margin: 15px 0px 0px 0px;
+
+    height: 65px;
+    width: 60px;
+
+}
+
+
+.table_buttons {
+    padding: 0px;
+    margin: 0px;
+    width: 90px;
+    height: 90px;
+    background-color: white;
+    color: white;
+}
+.contactdiv {
+    margin:auto;
+    width: 400px;
+
+}
+
+
+
+</style>    
+</head>
+
+<body>
+<div class="container">
+    <h1>TicTacToe</h1>
+    <h3>Shall we play a game?</h3>
+
+<!--  display avatars for selection-->
+<button class = "avatars" id = "avatar1" style="background-image:url(chubby-tonton.gif)" onclick="chooseAvatar(id)"></button>
+<button class = "avatars" id = "avatar2" style="background-image:url(gojill-the-meow-dance.gif)" onclick="chooseAvatar(id)"></button>
+<button class = "avatars" id = "avatar3" style="background-image:url(shiba-dog-jump.gif)" onclick="chooseAvatar(id)"></button>
+<button class = "avatars" id = "avatar4" style="background-image:url(shiba-tilt-head.gif)" onclick="chooseAvatar(id)"></button>
+<button class = "avatars" id = "avatar5" style="background-image:url(corgi-excited.gif)" onclick="chooseAvatar(id)"></button>
+<button class = "avatars" id = "avatar6" style="background-image:url(love-hearts.gif)" onclick="chooseAvatar(id)"></button>
+<p>Pick symbols for X and O above.  X goes first! Refresh for a new game.</p>
+
+
+ 
+<table>     <!-- form the tictactoe table with buttons -->
+    <!--<thead>
+        
+        <tr>
+            <th></th><th>Tic Tac Toe</th><th></th>
+        </tr>
+        
+    </thead>-->
+    <tbody>
+        <tr>    
+            <td><button class = "table_buttons" id="button1" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button2" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button3" onclick=wasClicked(id)>Z</button></td>
+        </tr>
+        <tr>    
+            <td><button class = "table_buttons" id="button4" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button5" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button6" onclick=wasClicked(id)>Z</button></td>
+        </tr>
+        <tr>    
+            <td><button class = "table_buttons" id="button7" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button8" onclick=wasClicked(id)>Z</button></td>
+            <td><button class = "table_buttons" id="button9" onclick=wasClicked(id)>Z</button></td>
+        </tr>
+    </tbody>
+ 
+ 
+ 
+</table>
+
+<p id = "win"></p>
+<p id = "debug1"></p>
+<p id = "debug2"></p>
+<p id = "debug3"></p>
+
+</div>
+<div class="contactdiv">
+    <address id="contact" >
+        <a href="mailto:benbrown3882@gmail.com">benbrown3882@gmail.com</a>
+
+    </address>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+
+
+let xAvatar;        // variable for urls (background images)
+let oAvatar;        // variable for urls
+let avatarToUse;    //image tag data for inline html images
+let urlToUse;       //url for background images (avatars)
+let clickBait=0;    // counter variable for chooseAvatar function
+
+
+
+function chooseAvatar (id) {
+
+    switch(id) {
+        case "avatar1" : urlToUse="url(chubby-tonton.gif)";
+                        avatarToUse="<img src=chubby-tonton.gif style = height:50px border=2px solid>";
+                        break;
+        case "avatar2" : urlToUse="url(gojill-the-meow-dance.gif)";
+                        avatarToUse="<img src=gojill-the-meow-dance.gif style = height:50px border=2px solid>";
+                        break;
+
+        case "avatar3" : urlToUse="url(shiba-dog-jump.gif)";
+                        avatarToUse="<img src=shiba-dog-jump.gif style = height:50px border=2px solid>";
+                        break;
+
+        case "avatar4" : urlToUse="url(shiba-tilt-head.gif)";
+                        avatarToUse="<img src=shiba-tilt-head.gif style = height:50px border=2px solid>";
+                        break;
+        case "avatar5" : urlToUse="url(corgi-excited.gif)";
+                        avatarToUse="<img src=corgi-excited.gif style = height:50px border=2px solid>";
+                        break;
+
+        case "avatar6" : urlToUse="url(love-hearts.gif)";
+                        avatarToUse="<img src=love-hearts.gif style = height:50px border=2px solid>";
+                        break; 
+
+        default : urlToUse="";
+
+    }
+
+    if(clickBait%2) { 
+        
+        oAvatar=urlToUse;
+        document.getElementById("debug3").innerHTML="Your O symbol is " + avatarToUse;
+        // document.getElementById("debug3").innerHTML="<img src=shiba-tilt-head.gif>";
+
+    } else {
+    
+        xAvatar=urlToUse;
+        document.getElementById("debug2").innerHTML="Your X symbol is " + avatarToUse;
+        // document.getElementById("debug2").innerHTML="Your X symbol is " + id;
+    }
+    
+clickBait++;
+    
+}
+
+
+let numClicks = 0;  // counter variable for wasClicked function
+let binaryResult;   // either an X or an O
+ 
+function wasClicked (id) {      // place the avatar backgrounds and X/O in the clicked square
+ 
+
+    let initialValue = document.getElementById(id).innerHTML;
+        if(initialValue=="Z") {
+ 
+            if(numClicks%2) {                                                   //check for even or odd numClicks
+                binaryResult = "O";
+                document.getElementById(id).style.backgroundImage = oAvatar;    //url for the background image
+                document.getElementById(id).style.backgroundSize="85px";        //size the image
+                document.getElementById(id).style.backgroundRepeat="no-repeat"; //don't repeat the image
+                document.getElementById(id).style.color = "black";              //change color from white 
+                document.getElementById(id).innerHTML = binaryResult;           //display a black O over the background image
+                
+   
+            } else {
+                    binaryResult = "X";
+                    document.getElementById(id).style.backgroundImage = xAvatar; //same as the block above
+                    document.getElementById(id).style.backgroundSize="85px";
+                    document.getElementById(id).style.backgroundRepeat="no-repeat";
+                    document.getElementById(id).style.color = "black";
+                    document.getElementById(id).innerHTML = binaryResult;
+                }
+       
+        numClicks++;        //counter the clicks
+        checkForAWinner();  // go to function
+        }
+}
+ 
+function checkForAWinner() {    //check the inputs for a winning combination
+    
+    const rowsAndColumns = [    // winning combos
+        {x: 0, y: 1, z: 2},     //test row 1: 0, 1, 2
+        {x: 3, y: 4, z: 5},     //test row 2: 3, 4, 5
+        {x: 6, y: 7, z: 8},     //test row 3: 6, 7, 8
+        {x: 0, y: 3, z: 6},     //test column 1: 0, 3, 6
+        {x: 1, y: 4, z: 7},     //test column 2: 1, 4, 7
+        {x: 2, y: 5, z: 8},     //test column 3: 2, 5, 8
+        {x: 0, y: 4, z: 8},     //test diagonal 1: 0, 4, 8
+        {x: 2, y: 4, z: 6}      //test diagonal 2: 2, 4, 6
+        ];
+
+        for(i=0; i < rowsAndColumns.length; i++) {
+
+           testEmAll(rowsAndColumns[i].x, rowsAndColumns[i].y, rowsAndColumns[i].z);    // test for 3 symbols in a row in function testEmAll
+            
+        } 
+}
+
+function testEmAll(x, y, z) {   //test for a winning combination
+
+    const xO = document.getElementsByClassName("table_buttons"); //put all the "button" values in an array xO[]
+
+    if(xO[x].innerHTML !== "Z" && xO[y].innerHTML !=="Z" && xO[z].innerHTML != "Z"){  //ensure all three boxes have been selected
+
+        if(xO[x].innerHTML == xO[y].innerHTML && xO[y].innerHTML == xO[z].innerHTML ) {  //test for "3 in a row"
+    
+            announceAWinner(xO, x, y, z);
+
+        }
+    }
+}
+
+function announceAWinner(xO, x, y, z) {     //annnounce the winner
+    
+    document.getElementById("win").innerHTML = 
+        "Winner! " + xO[x].innerHTML + xO[y].innerHTML + xO[z].innerHTML;  //announce game is won
+
+        /* if(xO[x]=="X") {
+            document.getElementById("win").innerHTML = "Winner! " + avatarToUse;
+        }
+        else {
+            document.getElementById("win").innerHTML = "Winner! " + avatarToUse;
+        } */
+
+        
+}
+
+</script>
+ 
+ 
+ 
+
+</body>
+</html>
